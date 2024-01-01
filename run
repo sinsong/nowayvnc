@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+export WAYLAND_DISPLAY=${XDG_RUNTIME_DIR}/wayland-1
+
+# simple wait WAYLAND_DISPLAY sock exists
+check_wayland_display() {
+    echo "wait for wayland display"
+    while true ;do
+        if [[ -e ${WAYLAND_DISPLAY} ]]; then
+            break
+        fi
+    done
+    echo "detected WAYLAND_DISPLAY"
+}
+
+# wayland compositor
+sway --unsupported-gpu &
+
+check_wayland_display &
+wait $! # last job pid
+# vnc server
+wayvnc & # listen at localhost:5900
+
+# novnc things
+# forward to localhost:6080
+/usr/share/novnc/utils/novnc_proxy --vnc localhost:5900
