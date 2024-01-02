@@ -12,14 +12,12 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
     && sed -i "s@deb.debian.org@mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/debian.sources \
     && apt-get update \
     && apt-get install --yes --no-install-recommends \
-        libegl1-mesa libgles2-mesa mesa-vulkan-drivers \
-        sway wayvnc novnc procps wlr-randr dbus fonts-noto \
-        man-db vim curl wget \
-        foot firefox-esr \
+        libgl1 libgl1-mesa-dri libegl1-mesa libgles2-mesa libvulkan1 mesa-vulkan-drivers vulkan-tools mesa-utils \
+        sway wayvnc novnc procps wlr-randr dbus fonts-noto fonts-noto-cjk fonts-noto-cjk-extra fonts-noto-color-emoji fonts-noto-extra fonts-noto-mono fonts-noto-ui-core fonts-noto-ui-extra \
+        man-db bash-completion vim curl wget \
+        foot gtk-4-examples firefox-esr gnome-calculator \
     && useradd -m -s /bin/bash user \
     && mkdir -p ${XDG_RUNTIME_DIR} && chown -R user:user ${XDG_RUNTIME_DIR}
-
-# gnome-calculator need Xwayland
 
 # CMD shell script
 COPY run /usr/local/bin/run
